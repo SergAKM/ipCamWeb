@@ -1,0 +1,14 @@
+{
+  "name": "ipcamweb",
+  "version": "0.1.0",
+  "description": "Lightweight ONVIF/RTSP IP camera web app with PTZ controls",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "node-onvif": "^0.6.5",
+    "ws": "^8.18.0"
+  }
+}
