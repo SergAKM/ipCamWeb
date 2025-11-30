@@ -25,6 +25,14 @@ let cameraSession = {
 
 let ffmpegProcess = null;
 
+function broadcastWsClose(reason) {
+  wss.clients.forEach((client) => {
+    if (client.readyState === WebSocket.OPEN) {
+      client.close(1011, reason);
+    }
+  });
+}
+
 function stopStream() {
   if (ffmpegProcess) {
     ffmpegProcess.kill('SIGINT');
@@ -69,6 +77,13 @@ function startStream() {
 
   ffmpegProcess.on('close', () => {
     ffmpegProcess = null;
+  });
+
+  ffmpegProcess.on('error', (err) => {
+    // eslint-disable-next-line no-console
+    console.error(`FFmpeg error: ${err.message}`);
+    broadcastWsClose('Stream encoder error');
+    stopStream();
   });
 }
 
